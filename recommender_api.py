@@ -5,6 +5,7 @@ from pymongo import MongoClient
 from bson import ObjectId
 import pandas as pd
 import pickle
+from fastapi.responses import RedirectResponse
 from apscheduler.schedulers.background import BackgroundScheduler
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import linear_kernel
@@ -18,6 +19,10 @@ MONGO_URI = os.getenv("MONGO_URI")
 DB_NAME = os.getenv("DB_NAME", "MACha")
 
 app = FastAPI(title="MACha Recommender System")
+
+@app.get("/", include_in_schema=False)
+def index():
+    return RedirectResponse(url="/docs")
 
 # Biến toàn cục lưu Model
 meta_df = None
